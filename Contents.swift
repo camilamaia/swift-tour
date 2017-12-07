@@ -55,6 +55,19 @@ occupations = [:]
 
 var explicitArray : [Int] = [2, 4, 6]
 explicitArray.append(8)
+explicitArray.count
+
+var emojis = ["😎", "🤯", "😤"]
+emojis.insert("😂", at: 1)
+emojis.remove(at: 3)
+print(emojis)
+
+emojis.contains("🤯")
+emojis.contains("😤")
+
+emojis.index(of: "😎")
+emojis.index(of: "😤")
+
 
 // Control Flow
 
@@ -100,6 +113,18 @@ default:
     print("Everything tastes good in soup.")
 }
 
+let waterJug = 1999.999
+switch waterJug {
+case 0..<1000:
+    print("Less than a liter of water")
+case 1000..<2000:
+    print("More than 1 liter and less than 2 liters of water")
+case 2000..<3000:
+    print("More than 2 liters and less than 3 liters of water")
+default:
+    print("Everything tastes good in soup.")
+}
+
 
 let interestingNumbers = [
     "Prime": [2, 3, 5, 7, 11, 13],
@@ -116,3 +141,35 @@ for (kind, numbers) in interestingNumbers {
     print(kind)
 }
 print(largest)
+
+for _ in 2_000_150...2_000_160 {
+    print("yo!")
+}
+
+
+let thereIsCoffe = false
+repeat {
+    print("give me coffe")
+} while thereIsCoffe
+
+while thereIsCoffe {
+    print("give me coffe")
+}
+
+var n = 2
+while n < 100 {
+    n *= 2
+}
+print(n)
+
+var m = 2
+repeat {
+    m *= 2
+} while m < 100
+print(m)
+
+var total = 0
+for i in 0..<4 {
+    total += i
+}
+print(total)
