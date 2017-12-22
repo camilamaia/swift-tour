@@ -1,10 +1,11 @@
-// Simple Values
+// ** SIMPLE VALUES ** //
 
+// Constants
 let implicitInteger = 70
 let implicitDouble = 70.0
 let explicitDouble: Double = 4.0
 
-
+// Type Conversion
 let age = 10
 let weight : Float = 50.532
 Float(age) * weight
@@ -16,7 +17,7 @@ let label = "The width is "
 let width = 94
 let widthLabel = label + String(width)
 
-
+// Interpolation
 let apples = 3
 let oranges = 5
 let appleSummary = "I have \(apples) apples."
@@ -34,29 +35,21 @@ I said "I have \(apples) apples."
 And then I said "I have \(apples + oranges) pieces of fruit."
 """
 
-
+// Arrays
 var shoppingList = ["catfish", "water", "tulips", "blue paint"]
 shoppingList[1] = "bottle of water"
 print(shoppingList)
 
-var occupations = [
-    "Malcolm": "Captain",
-    "Kaylee": "Mechanic",
-]
-occupations["Jayne"] = "Public Relations"
-print(occupations)
-
-
-let emptyArray = [String]()
-let emptyDictionary = [String: Float]()
-
+// Empty Arrays
 shoppingList = []
-occupations = [:]
+let emptyArray = [String]()
 
+// Explicit Arrays
 var explicitArray : [Int] = [2, 4, 6]
 explicitArray.append(8)
 explicitArray.count
 
+// Operatiions with Arrays
 var emojis = ["😎", "🤯", "😤"]
 emojis.insert("😂", at: 1)
 emojis.remove(at: 3)
@@ -68,9 +61,21 @@ emojis.contains("😤")
 emojis.index(of: "😎")
 emojis.index(of: "😤")
 
+// Dictionaries
+var occupations = [
+    "Malcolm": "Captain",
+    "Kaylee": "Mechanic",
+]
+occupations["Jayne"] = "Public Relations"
+print(occupations)
 
-// Control Flow
+// Empty Dictionaries
+occupations = [:]
+let emptyDictionary = [String: Float]()
 
+// ** CONTROL FLOWS ** //
+
+// For loops
 let individualScores = [75, 43, 103, 87, 12]
 var teamScore = 0
 for score in individualScores {
@@ -100,7 +105,7 @@ let nickName: String? = nil
 let fullName: String = "John Appleseed"
 let informalGreeting = "Hi \(nickName ?? fullName)"
 
-
+// Switches
 let vegetable = "red pepper"
 switch vegetable {
 case "celery":
@@ -146,7 +151,7 @@ for _ in 2_000_150...2_000_160 {
     print("yo!")
 }
 
-
+// While Loops
 let thereIsCoffe = false
 repeat {
     print("give me coffe")
@@ -173,3 +178,170 @@ for i in 0..<4 {
     total += i
 }
 print(total)
+
+// ** FUNCTIONS AND CLOSURES ** //
+
+func greet(person: String, day: String) -> String {
+    return "Hello \(person), today is \(day)."
+}
+greet(person: "Bob", day: "Tuesday")
+
+
+func greetWithLunchSpecial(person: String, lunchSpecial: String) -> String {
+    return "Hello \(person), today's lunch special is \(lunchSpecial)!"
+}
+greetWithLunchSpecial(person: "Bob", lunchSpecial: "Burger")
+
+
+func requiredOranges(litersOfJuice : Double) -> Float {
+    return Float(litersOfJuice*20)
+}
+
+requiredOranges(litersOfJuice : 3550)
+
+
+func greet(_ person: String, on day: String) -> String {
+    return "Hello \(person), today is \(day)."
+}
+greet("John", on: "Wednesday")
+
+// Nested Functions
+
+func returnFifteen() -> Int {
+    var y = 10
+    func add() {
+        y += 5
+    }
+    add()
+    return y
+}
+returnFifteen()
+
+// Functions are a first-class type - they can return another function as its value.
+func makeIncrementer() -> ((Int) -> Int) {
+    func addOne(number: Int) -> Int {
+        return 1 + number
+    }
+    return addOne
+}
+var increment = makeIncrementer()
+increment(7)
+
+// Function as argument
+func hasAnyMatches(list: [Int], condition: (Int) -> Bool) -> Bool {
+    for item in list {
+        if condition(item) {
+            return true
+        }
+    }
+    return false
+}
+func lessThanTen(number: Int) -> Bool {
+    return number < 10
+}
+var numbers = [20, 19, 7, 12]
+hasAnyMatches(list: numbers, condition: lessThanTen)
+
+// Functions are a special case of closures: blocks of code that can be called later.
+numbers.map({ (number: Int) -> Int in
+    let result = 3 * number
+    return result
+})
+
+numbers.map({ (number: Int) -> Int in
+    if number % 2 == 0 {
+        return 3 * number
+    } else {
+        return 0
+    }
+})
+
+// Omit the type of parameters, return, or both
+let mappedNumbers = numbers.map({ number in 3 * number })
+print(mappedNumbers)
+
+// Refer to parameters by number instead of by name
+let sortedNumbers = numbers.sorted { $0 > $1 }
+print(sortedNumbers)
+
+
+// ** TUPLES ** //
+
+var pedro = (25, "blond", true)
+
+// Tuples with identifiers
+pedro = (age: 25, hair: "blond", male: true)
+
+// Explicit Tuples
+var clara : (age: Int, hair: String, male: Bool) = (2, "blond", false)
+
+// Tuples and function
+func personInfo(tuple: (age: Int, hair: String, male: Bool)){
+    print("hair: \(tuple.hair), age: \(tuple.age), male: \(tuple.male)")
+}
+
+personInfo(tuple: clara)
+
+
+func calculateStatistics(scores: [Int]) -> (min: Int, max: Int, sum: Int) {
+    var min = scores[0]
+    var max = scores[0]
+    var sum = 0
+
+    for score in scores {
+        if score > max {
+            max = score
+        } else if score < min {
+            min = score
+        }
+        sum += score
+    }
+
+    return (min, max, sum)
+}
+let statistics = calculateStatistics(scores: [5, 3, 100, 3, 9])
+print(statistics.sum)
+print(statistics.2)
+
+
+// ** OPTIONALS ** //
+
+var childName : String? = "Enzo"
+
+// Exclamation mark to unwrap an optional
+print(childName!)
+
+// Question Mark to check if optional has a value
+childName?.uppercased()
+
+// Optional Binding
+if let name = childName {
+    print(name.uppercased())
+} else {
+    print("Give a name to your child, man")
+}
+
+// ** CLASSES ** //
+
+class Table {
+    var color : String = "Black"
+    var width : Int = 500
+    var length : Int = 1000
+    var area : Int {
+        return width*length
+    }
+}
+
+var beedroomTable = Table()
+beedroomTable.width = 650
+beedroomTable.length = 800
+beedroomTable.color = "White"
+beedroomTable.area
+
+var liveroomTable = Table()
+liveroomTable.width = 1000
+liveroomTable.length = 3000
+liveroomTable.color = "Brown"
+liveroomTable.area
+
+let tables : [Table] = [beedroomTable, liveroomTable]
