@@ -345,3 +345,81 @@ liveroomTable.color = "Brown"
 liveroomTable.area
 
 let tables : [Table] = [beedroomTable, liveroomTable]
+
+
+class Shape {
+    let name : String
+    var numberOfSides = 0
+
+    func simpleDescription() -> String {
+        return "A shape with \(numberOfSides) sides."
+    }
+
+    func formatOf(my object: String) -> String {
+        return "My \(object)'s shape is: \(name)."
+    }
+
+    // self is used to distinguish the name property from the name argument to the initializer.
+    init(_ name: String, _ numberOfSides: Int) {
+        self.name = name
+        self.numberOfSides = numberOfSides
+    }
+
+    init(_ name: String) {
+        self.name = name
+    }
+
+    /* Use deinit to create a deinitializer if you need to
+    perform some cleanup before the object is deallocated. */
+    deinit {}
+}
+
+var squareShape = Shape("square", 4)
+print(squareShape.simpleDescription())
+print(squareShape.formatOf(my: "head"))
+
+// Inheritance
+class Square: Shape {
+    var sideLength: Double
+
+    init(sideLength: Double, name: String) {
+        self.sideLength = sideLength
+        super.init(name)
+        numberOfSides = 4
+    }
+
+    func area() -> Double {
+        return sideLength * sideLength
+    }
+
+    override func simpleDescription() -> String {
+        return "A square with sides of length \(sideLength)."
+    }
+}
+
+let square = Square(sideLength: 5.2, name: "square")
+square.area()
+square.simpleDescription()
+square.formatOf(my: "table")
+
+class Circle: Shape {
+    var radius: Double
+
+    init(_ name: String, _ radius: Double) {
+        self.radius = radius
+        super.init(name)
+    }
+
+    func area() -> Double {
+        return Double.pi * radius * radius
+    }
+
+    override func simpleDescription() -> String {
+        return "A circle with radius: \(radius)"
+    }
+}
+
+let circle = Circle("circle", 2)
+circle.area()
+circle.simpleDescription()
+circle.formatOf(my: "pizza")
