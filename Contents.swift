@@ -423,3 +423,288 @@ let circle = Circle("circle", 2)
 circle.area()
 circle.simpleDescription()
 circle.formatOf(my: "pizza")
+
+/* In addition to simple properties that are stored, properties can have a
+getter and a setter. */
+
+class EquilateralTriangle: Shape {
+    var sideLength: Double = 0.0
+
+    init(_ name: String, sideLength: Double) {
+        self.sideLength = sideLength
+        super.init(name)
+        numberOfSides = 3
+    }
+
+    var perimeter: Double {
+        get {
+            return 3.0 * sideLength
+        }
+        set {
+            sideLength = newValue / 3.0
+        }
+    }
+
+    override func simpleDescription() -> String {
+        return "An equilateral triangle with sides of length \(sideLength)."
+    }
+}
+var triangle = EquilateralTriangle("a triangle", sideLength: 3.1)
+print(triangle.perimeter)
+triangle.perimeter = 9.9
+print(triangle.sideLength)
+
+
+// willSet and didSet
+
+class TriangleAndSquare {
+    var triangle: EquilateralTriangle {
+        willSet {
+            square.sideLength = newValue.sideLength
+        }
+    }
+    var square: Square {
+        willSet {
+            triangle.sideLength = newValue.sideLength
+        }
+    }
+
+    init(size: Double, name: String) {
+        square = Square(sideLength: size, name: name )
+        triangle = EquilateralTriangle(name, sideLength: size)
+    }
+}
+
+var triangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
+print(triangleAndSquare.square.sideLength)
+print(triangleAndSquare.triangle.sideLength)
+triangleAndSquare.square = Square(sideLength: 50, name: "larger square")
+print(triangleAndSquare.triangle.sideLength)
+
+// ** STRUCTS ** //
+
+// Class x Struct
+
+/*
+ One of the most important differences between structures and classes is that
+ structures are always copied when they are passed around in your code,
+ but classes are passed by reference.
+*/
+
+class Movie {
+    var name = String()
+    var year = Int()
+
+    init(){}
+}
+
+var blackPanther = Movie()
+var blackPantherCopy1 = blackPanther
+
+blackPanther.name = "Black Panther"
+blackPanther.year = 2018
+
+var blackPantherCopy2 = blackPanther
+
+print(blackPanther.name)
+print(blackPanther.year)
+
+print(blackPantherCopy1.name)
+print(blackPantherCopy1.year)
+
+print(blackPantherCopy2.name)
+print(blackPantherCopy2.year)
+
+struct MovieStruct {
+    var name = String()
+    var year = Int()
+
+    init(){}
+}
+
+var titanic = MovieStruct()
+var titanicCopy1 = titanic
+
+titanic.name = "Titanic"
+titanic.year = 1997
+
+var titanicCopy2 = titanic
+
+print(titanic.name)
+print(titanic.year)
+
+print(titanicCopy1.name)
+print(titanicCopy1.year)
+
+print(titanicCopy2.name)
+print(titanicCopy2.year)
+
+
+struct Card {
+    var rank: Rank
+    var suit: Suit
+
+    func simpleDescription() -> String {
+        return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+    }
+
+    /* TODO - Add a method to Card that creates a full deck of cards,
+     with one card of each combination of rank and suit. */
+}
+
+let threeOfSpades = Card(rank: .three, suit: .spades)
+let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+
+
+// ** ENUMS ** //
+
+enum WindRose {
+    /*
+     It also works with one line notation:
+     case North, South, East, West
+    */
+    case North
+    case South
+    case East
+    case West
+}
+
+var directions = [WindRose.North, WindRose.East]
+
+for direction in directions {
+    switch direction {
+    case .North:
+        print("go straight")
+    case .South:
+        print("turn around")
+    case .East:
+        print("turn left")
+    case .West:
+        print("turn right")
+    }
+}
+
+enum WindRoseString : String {
+    case North = "go straight"
+    case South = "turn around"
+    case East = "turn left"
+    case West = "turn right"
+}
+
+var directions2 = [WindRoseString.North, WindRoseString.East]
+
+for direction in directions2 {
+    print(direction.rawValue)
+}
+
+for direction in directions2 {
+    print(direction.hashValue)
+}
+
+
+enum Rank: Int {
+    case ace = 1
+    case two, three, four, five, six, seven, eight, nine, ten
+    case jack, queen, king
+
+    func simpleDescription() -> String {
+        switch self {
+        case .ace:
+            return "ace"
+        case .jack:
+            return "jack"
+        case .queen:
+            return "queen"
+        case .king:
+            return "king"
+        default:
+            return String(self.rawValue)
+        }
+    }
+
+    // we could use Swift Equatable Protocol here
+    func isEqual(otherRank: Rank) -> Bool {
+        return self.rawValue == otherRank.rawValue
+    }
+
+    // we could use Swift Comparable Protocol here
+    func isLessThan(otherRank: Rank) -> Bool {
+        return self.rawValue < otherRank.rawValue
+    }
+
+    // we could use Swift Comparable Protocol here
+    func isGreatherThan(otherRank: Rank) -> Bool {
+        return self.rawValue < otherRank.rawValue
+    }
+}
+
+let ace = Rank.ace
+let aceRawValue = ace.rawValue
+let aceHashValue = ace.hashValue
+
+Rank.two.rawValue
+Rank.two.hashValue
+
+Rank.ace.isEqual(otherRank: .ace)
+Rank.ace.isGreatherThan(otherRank: .king)
+Rank.king.isLessThan(otherRank: .five)
+
+if let convertedRank = Rank(rawValue: 3) {
+    let threeDescription = convertedRank.simpleDescription()
+    print(convertedRank)
+    print(threeDescription)
+}
+
+enum Suit {
+    case spades, hearts, diamonds, clubs
+    func simpleDescription() -> String {
+        switch self {
+        case .spades:
+            return "spades"
+        case .hearts:
+            return "hearts"
+        case .diamonds:
+            return "diamonds"
+        case .clubs:
+            return "clubs"
+        }
+    }
+
+    func color() -> String {
+        switch self {
+        case .spades, .clubs:
+            return "black"
+        case .hearts, .diamonds:
+            return "red"
+        }
+    }
+}
+
+let hearts = Suit.hearts
+let heartsDescription = hearts.simpleDescription()
+
+print(hearts.color())
+print(Suit.clubs.color())
+
+
+/*
+   Another choice for enumeration cases is to have values associated with the
+   case—these values are determined when you make the instance, and they can be
+   different for each instance of an enumeration case.
+*/
+
+// TODO - imporve this example
+enum ServerResponse {
+    case result(String, String)
+    case failure(String)
+}
+
+let success = ServerResponse.result("6:00 am", "8:09 pm")
+let failure = ServerResponse.failure("Out of cheese.")
+
+switch success {
+case let .result(sunrise, sunset):
+    print("Sunrise is at \(sunrise) and sunset is at \(sunset).")
+case let .failure(message):
+    print("Failure...  \(message)")
+}
