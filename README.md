@@ -1,5 +1,5 @@
 # Swift Tour
-Playing around with Swift 4. Based on Apple's Swift Guided Tour
+Playing around with Swift 4. Based on [Apple's Swift Guided Tour](https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/GuidedTour.html) and on the Udemy PT-BR Course [Aprendendo Swift do Iniciante ao Avançado. (Mac e Windows) | Udemy](https://www.udemy.com/aprendendoswift3/learn/v4/overview)
 
 ## Simple Values
 
