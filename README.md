@@ -514,80 +514,55 @@ triangleAndSquare.square = Square(sideLength: 50, name: "larger square")
 print(triangleAndSquare.triangle.sideLength)
 ```
 
-## STRUCTS
-### Class x Struct
-```swift
-/*
- One of the most important differences between structures and classes is that
- structures are always copied when they are passed around in your code,
- but classes are passed by reference.
-*/
-
-class Movie {
-    var name = String()
-    var year = Int()
-
-    init(){}
-}
-
-var blackPanther = Movie()
-var blackPantherCopy1 = blackPanther
-
-blackPanther.name = "Black Panther"
-blackPanther.year = 2018
-
-var blackPantherCopy2 = blackPanther
-
-print(blackPanther.name)
-print(blackPanther.year)
-
-print(blackPantherCopy1.name)
-print(blackPantherCopy1.year)
-
-print(blackPantherCopy2.name)
-print(blackPantherCopy2.year)
-
-struct MovieStruct {
-    var name = String()
-    var year = Int()
-
-    init(){}
-}
-
-var titanic = MovieStruct()
-var titanicCopy1 = titanic
-
-titanic.name = "Titanic"
-titanic.year = 1997
-
-var titanicCopy2 = titanic
-
-print(titanic.name)
-print(titanic.year)
-
-print(titanicCopy1.name)
-print(titanicCopy1.year)
-
-print(titanicCopy2.name)
-print(titanicCopy2.year)
-```
+## Inheritance: Super, Override and Final
 
 ```swift
-struct Card {
-    var rank: Rank
-    var suit: Suit
+class LivingBeing {
+    var name = ""
+    var age = 0
 
-    func simpleDescription() -> String {
-        return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+    func description() -> String {
+        return "I am a living being"
     }
-
-    /* TODO - Add a method to Card that creates a full deck of cards,
-     with one card of each combination of rank and suit. */
 }
 
-let threeOfSpades = Card(rank: .three, suit: .spades)
-let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+class Bird : LivingBeing {
+    var numberOfWings = 0
+
+    override func description() -> String {
+        return "\(super.description()) / Bird"
+    }
+}
+
+var bird = Bird()
+bird.name = "John"
+bird.age = 3
+bird.numberOfWings = 2
+print(bird.description())
+
+class Chicken : Bird {
+    var numberOfFeathers = 0
+
+    override func description() -> String {
+        return "\(super.description()) / Chicken"
+    }
+}
+
+var chicken = Chicken()
+chicken.name = "Little"
+chicken.age = 1
+chicken.numberOfWings = 2
+chicken.numberOfFeathers = 5334534
+chicken.description()
 ```
+
+### Final: Preventing Overrides
+
+ You can prevent a method, property, or subscript from being overridden by marking it as final. Do this by writing the final modifier before the method, property, or subscript’s introducer keyword (such as final var, final func, final class func, and final subscript).
+
+ Any attempt to override a final method, property, or subscript in a subclass is reported as a compile-time error. Methods, properties, or subscripts that you add to a class in an extension can also be marked as final within the extension’s definition.
+
+ You can mark an entire class as final by writing the final modifier before the class keyword in its class definition (final class). Any attempt to subclass a final class is reported as a compile-time error.
 
 ## ENUMS
 ```swift
@@ -743,3 +718,79 @@ case let .failure(message):
     print("Failure...  \(message)")
 }
 ```
+
+## STRUCTS
+### Class x Struct
+```swift
+/*
+ One of the most important differences between structures and classes is that
+ structures are always copied when they are passed around in your code,
+ but classes are passed by reference.
+*/
+
+class Movie {
+    var name = String()
+    var year = Int()
+
+    init(){}
+}
+
+var blackPanther = Movie()
+var blackPantherCopy1 = blackPanther
+
+blackPanther.name = "Black Panther"
+blackPanther.year = 2018
+
+var blackPantherCopy2 = blackPanther
+
+print(blackPanther.name)
+print(blackPanther.year)
+
+print(blackPantherCopy1.name)
+print(blackPantherCopy1.year)
+
+print(blackPantherCopy2.name)
+print(blackPantherCopy2.year)
+
+struct MovieStruct {
+    var name = String()
+    var year = Int()
+
+    init(){}
+}
+
+var titanic = MovieStruct()
+var titanicCopy1 = titanic
+
+titanic.name = "Titanic"
+titanic.year = 1997
+
+var titanicCopy2 = titanic
+
+print(titanic.name)
+print(titanic.year)
+
+print(titanicCopy1.name)
+print(titanicCopy1.year)
+
+print(titanicCopy2.name)
+print(titanicCopy2.year)
+```
+
+```swift
+struct Card {
+    var rank: Rank
+    var suit: Suit
+
+    func simpleDescription() -> String {
+        return "The \(rank.simpleDescription()) of \(suit.simpleDescription())"
+    }
+
+    /* TODO - Add a method to Card that creates a full deck of cards,
+     with one card of each combination of rank and suit. */
+}
+
+let threeOfSpades = Card(rank: .three, suit: .spades)
+let threeOfSpadesDescription = threeOfSpades.simpleDescription()
+```
+
